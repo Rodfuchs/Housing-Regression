@@ -42,8 +42,10 @@ cd house-pricing-regression
 python -m venv venv
 # Activate Linux/Mac
 source venv/bin/activate
+
 # Activate Windows
 venv\Scripts\activate
+
 3️⃣ Install dependencies:
 
 pip install -r requirements.txt
