@@ -26,8 +26,6 @@ house-pricing-regression/
 ├── requirements.txt # Dependencies
 └── README.md
 
-yaml
-Copy code
 
 ---
 
@@ -35,13 +33,12 @@ Copy code
 
 1️⃣ Clone the repo:
 
-```bash
+
 git clone https://github.com/YOUR_USERNAME/house-pricing-regression.git
 cd house-pricing-regression
-2️⃣ (Optional) Create a virtual environment:
 
-bash
-Copy code
+2️⃣(Optional) Create a virtual environment:
+
 python -m venv venv
 # Activate Linux/Mac
 source venv/bin/activate
@@ -49,18 +46,15 @@ source venv/bin/activate
 venv\Scripts\activate
 3️⃣ Install dependencies:
 
-bash
-Copy code
 pip install -r requirements.txt
+
 4️⃣ Run notebook for exploration:
 
-bash
-Copy code
 jupyter notebook notebooks/house-pricing.ipynb
+
+
 5️⃣ Train and evaluate via scripts:
 
-bash
-Copy code
 python src/train.py
 python src/evaluate.py
 ⚡ Example Results
