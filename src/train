@@ -1,0 +1,50 @@
+# train.py
+import pandas as pd
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.pipeline import make_pipeline
+from sklearn.feature_selection import RFE
+from xgboost import XGBRegressor
+from preprocessing import build_preprocessor
+
+def train_model(X_train, y_train):
+    """Train XGBoost model with RFE and preprocessing."""
+    preprocessor = build_preprocessor(X_train)
+    model = XGBRegressor()
+    rfe = RFE(estimator=model, n_features_to_select=30, step=1)
+    pipeline = make_pipeline(preprocessor, rfe)
+
+    # GridSearchCV
+    param_grid = {
+        "rfe__estimator__n_estimators": [100],
+        "rfe__estimator__max_depth": [5, 10],
+        "rfe__estimator__learning_rate": [0.1],
+        "rfe__estimator__subsample": [0.8, 1.0],
+        "rfe__estimator__lambda": [10],
+        "rfe__estimator__alpha": [10],
+        "rfe__n_features_to_select": [30]
+    }
+
+    search = GridSearchCV(pipeline, param_grid, cv=10, verbose=1)
+    search.fit(X_train, y_train)
+
+    print("Best CV score:", search.best_score_)
+    print("Best params:", search.best_params_)
+
+    return search
+
+if __name__ == "__main__":
+    # Cargar datos
+    url = "https://drive.google.com/file/d/1RhzfCilHDItdcvkMr3kddINn76n4gHTg/view?usp=sharing"
+    path = 'https://drive.google.com/uc?export=download&id=' + url.split('/')[-2]
+    data = pd.read_csv(path)
+
+    # preprocess
+    data.drop(['FireplaceQu', 'MasVnrType', 'Alley','PoolQC', 'Fence', 'MiscFeature','Id'], axis=1, inplace=True)
+    X = data
+    y = X.pop('SalePrice')
+
+    # Split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=31416)
+
+    # train
+    trained_model = train_model(X_train, y_train)
