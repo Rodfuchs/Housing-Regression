@@ -31,31 +31,32 @@ house-pricing-regression/
 
 ## 💻 Quick Start
 
-1️⃣ Clone the repo:
+##1️⃣ Clone the repo:
 
 
 git clone https://github.com/YOUR_USERNAME/house-pricing-regression.git
 cd house-pricing-regression
 
-2️⃣(Optional) Create a virtual environment:
+##2️⃣(Optional) Create a virtual environment:
 
 python -m venv venv
+
 -Activate Linux/Mac
 source venv/bin/activate
 
 -Activate Windows
 venv\Scripts\activate
 
-3️⃣ Install dependencies:
+##3️⃣ Install dependencies:
 
 pip install -r requirements.txt
 
-4️⃣ Run notebook for exploration:
+##4️⃣ Run notebook for exploration:
 
 jupyter notebook notebooks/house-pricing.ipynb
 
 
-5️⃣ Train and evaluate via scripts:
+##5️⃣ Train and evaluate via scripts:
 
 python src/train.py
 python src/evaluate.py
