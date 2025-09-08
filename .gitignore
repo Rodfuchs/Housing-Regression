@@ -1,0 +1,32 @@
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+venv/
+.env
+
+# -------------------------
+# Jupyter Notebook
+# -------------------------
+.ipynb_checkpoints/
+
+# -------------------------
+# Data files (optional)
+# -------------------------
+data/*.csv
+data/*.xlsx
+*.zip
+*.tar.gz
+
+# -------------------------
+# OS / IDE files
+# -------------------------
+.DS_Store       # macOS
+Thumbs.db       # Windows
+.idea/          # PyCharm / IntelliJ
+.vscode/        # VS Code workspace
