@@ -40,10 +40,10 @@ cd house-pricing-regression
 2️⃣(Optional) Create a virtual environment:
 
 python -m venv venv
-# Activate Linux/Mac
+-Activate Linux/Mac
 source venv/bin/activate
 
-# Activate Windows
+-Activate Windows
 venv\Scripts\activate
 
 3️⃣ Install dependencies:
