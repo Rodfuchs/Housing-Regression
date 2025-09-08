@@ -1,0 +1,69 @@
+# preprocessing.py
+import pandas as pd
+from sklearn.preprocessing import StandardScaler, OrdinalEncoder
+from sklearn.impute import SimpleImputer
+from category_encoders import TargetEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import make_pipeline
+
+def build_preprocessor(X):
+    """Build preprocessing pipeline for numerical and categorical features."""
+
+    # split columns
+    X_cat_columns = X.select_dtypes(exclude="number").columns
+    X_num_columns = X.select_dtypes(include="number").columns
+
+    # ordinal columns
+    ordinal_cols = ["ExterQual", "ExterCond", "BsmtQual", "BsmtCond",
+                    "BsmtExposure", "BsmtFinType1", "KitchenQual",
+                    "LotShape", "LandSlope", "Functional",
+                    "GarageQual", "GarageCond", "HeatingQC", "PavedDrive"]
+
+    # order for each ordinal feature
+    exter_qual_order = ["Po", "Fa", "TA", "Gd", "Ex"]
+    exter_cond_order = ["Po", "Fa", "TA", "Gd", "Ex"]
+    bsmt_qual_order = ["Po", "Fa", "TA", "Gd", "Ex"]
+    bsmt_cond_order = ["Po", "Fa", "TA", "Gd", "Ex"]
+    bsmt_exposure_order = ["No", "Mn", "Av", "Gd"]
+    bsmt_fintype1_order = ["Unf", "LwQ", "Rec", "BLQ", "ALQ", "GLQ"]
+    kitchen_qual_order = ["Po", "Fa", "TA", "Gd", "Ex"]
+    lot_shape_order = ["IR3", "IR2", "IR1", "Reg"]
+    land_slope_order = ["Sev", "Mod", "Gtl"]
+    functional_order = ["Sal", "Sev", "Maj2", "Maj1", "Mod", "Min2", "Min1", "Typ"]
+    garage_qual_order = ["Po", "Fa", "TA", "Gd", "Ex"]
+    garage_cond_order = ["Po", "Fa", "TA", "Gd", "Ex"]
+    heating_qc_order = ["Po", "Fa", "TA", "Gd", "Ex"]
+    paved_drive_order = ["N", "P", "Y"]
+
+    # Ordinal encoder
+    ordinal_encoder = OrdinalEncoder(
+        categories=[exter_qual_order, exter_cond_order, bsmt_qual_order, bsmt_cond_order,
+                    bsmt_exposure_order, bsmt_fintype1_order, kitchen_qual_order, lot_shape_order,
+                    land_slope_order, functional_order, garage_qual_order, garage_cond_order,
+                    heating_qc_order, paved_drive_order],
+        handle_unknown="use_encoded_value",
+        unknown_value=-1
+    )
+
+    # Numerical Pipeline
+    numeric_pipe = make_pipeline(
+        SimpleImputer(),
+        StandardScaler()
+    )
+
+    # Categorinal Pipeline
+    categoric_pipe = make_pipeline(
+        SimpleImputer(strategy="most_frequent"),
+        ColumnTransformer([
+            ("cat_ordinal", ordinal_encoder, ordinal_cols),
+            ("cat_target", TargetEncoder(), [col for col in X_cat_columns if col not in ordinal_cols])
+        ])
+    )
+
+    # Full preprocessor
+    preprocessor = ColumnTransformer([
+        ("num", numeric_pipe, X_num_columns),
+        ("cat", categoric_pipe, X_cat_columns)
+    ])
+
+    return preprocessor
